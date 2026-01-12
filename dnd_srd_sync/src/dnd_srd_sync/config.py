@@ -26,7 +26,12 @@ class Settings:
 
     @property
     def db_url(self) -> str:
-        return f"sqlite:///{self.db_path}"
+        # Normalize to an absolute POSIX path to avoid CWD and platform-specific path issues
+        path = self.db_path
+        if not path.is_absolute():
+            path = path.resolve()
+        posix_path = path.as_posix()
+        return f"sqlite:///{posix_path}"
 
     @classmethod
     def from_env(cls) -> "Settings":
