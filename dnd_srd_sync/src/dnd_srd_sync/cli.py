@@ -7,7 +7,7 @@ import argparse
 from rich.console import Console
 
 from dnd_srd_sync.api.client import SrdClient
-from dnd_srd_sync.config import Settings
+from dnd_srd_sync.config import get_settings
 from dnd_srd_sync.db.engine import get_engine, init_db
 from dnd_srd_sync.etl.extract import extract_index
 
@@ -25,7 +25,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
-    settings = Settings.from_env()
+    settings = get_settings()
 
     if args.init_db:
         engine = get_engine(settings)
