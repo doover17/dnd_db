@@ -21,12 +21,16 @@ def load_environment() -> None:
 class Settings:
     """Settings loaded from environment variables."""
 
-    db_url: str
+    db_path: Path
     api_base_url: str
+
+    @property
+    def db_url(self) -> str:
+        return f"sqlite:///{self.db_path}"
 
     @classmethod
     def from_env(cls) -> "Settings":
         load_environment()
-        db_url = os.getenv("DB_URL", "sqlite:///./dnd_srd.db")
+        db_path = Path(os.getenv("DB_PATH", "dnd_srd.db"))
         api_base_url = os.getenv("API_BASE_URL", "https://www.dnd5eapi.co")
-        return cls(db_url=db_url, api_base_url=api_base_url)
+        return cls(db_path=db_path, api_base_url=api_base_url)

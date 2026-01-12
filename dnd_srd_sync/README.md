@@ -31,6 +31,13 @@ Initialize the database schema:
 python -m dnd_srd_sync --init-db
 ```
 
+Generate an Alembic migration and apply it:
+
+```bash
+alembic revision --autogenerate -m "init"
+alembic upgrade head
+```
+
 Fetch and display the API index:
 
 ```bash
